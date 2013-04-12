@@ -151,6 +151,12 @@ class DBaaSFixture(BaseTestFixture):
     def tearDownClass(cls):
         super(DBaaSFixture, cls).tearDownClass()
 
+    def setUp(self):
+        super(DBaaSFixture, self).setUp()
+
+    def tearDown(self):
+        super(DBaaSFixture, self).tearDown()
+
     def get_last_response_code(self):
         resp, body = self.dbaas.client.last_response
         return str(resp.status)

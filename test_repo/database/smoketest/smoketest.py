@@ -65,38 +65,39 @@ class SmokeTest(DBaaSFixture):
         if testutil.isInstanceActive(cls.dbaas, instanceStatus=status):
             cls.dbaas.instances.get(cls.instance_id).delete()
 
-    @classmethod
-    def setUp(cls):
+    def setUp(self):
         """
         Run this setup for each test to ensure an active instance is available
 
         """
+        super(SmokeTest, self).setUp()
+
         tc_name = "Create Instance"
-        instance_status = testutil.getInstanceStatus(cls.dbaas,
-                                                     instanceId=cls.instance_id)
-        if (testutil.isInstanceActive(cls.dbaas,
+        instance_status = testutil.getInstanceStatus(self.dbaas,
+                                                     instanceId=self.instance_id)
+        if (testutil.isInstanceActive(self.dbaas,
                                       instanceStatus=instance_status) is False):
             #start a new instance and set the global instance ID
             NAME = "qe-smoke"
             FLAVOR = 4
             VOLUME = 1
             try:
-                instance = cls.dbaas.instances.create(
+                instance = self.dbaas.instances.create(
                     name=NAME,
                     flavor_id=FLAVOR,
                     volume={"size": VOLUME},
                     databases=[{"databases": [{"name": "databaseA"}], "name": "dbuser1",
                                 "password": "password"}])
-                httpCode = testutil.get_last_response_code(cls.dbaas)
+                httpCode = testutil.get_last_response_code(self.dbaas)
                 if httpCode != '200':
                     raise Exception("Create instance failed with code %s" % httpCode)
-                cls.instance_id = instance.id
-                testutil.waitForActive(cls.dbaas, instanceId=cls.instance_id)
-                if cls.stability_mode:
+                self.instance_id = instance.id
+                testutil.waitForActive(self.dbaas, instanceId=self.instance_id)
+                if self.stability_mode:
                     testutil.write_to_report(tc_name, tc_pass=True)
             except Exception as e:
-                if cls.stability_mode:
-                    testutil.write_to_error_report(cls.instance_id, repr(e))
+                if self.stability_mode:
+                    testutil.write_to_error_report(self.instance_id, repr(e))
                     testutil.write_to_report(tc_name, tc_pass=False)
                 raise
 
