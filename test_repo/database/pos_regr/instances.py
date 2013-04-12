@@ -47,13 +47,12 @@ class test_create_instances(DBaaSFixture):
                 if testutil.isInstanceActive(dbaas, instanceStatus=status):
                     dbaas.instances.get(instance_id).delete()
 
-    @classmethod
-    def tearDown(cls):
+    def tearDown(self):
         """
         Tearing down: Deleting the instance if in active state
 
         """
-        cls.tearDownClass()
+        self.tearDownClass()
         # #Delete the instance ID created for test if active
         # for instance in test_create_instances.all_instances:
         #     if instance is not None:
