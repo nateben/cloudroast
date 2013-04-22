@@ -6,7 +6,6 @@ from test_repo.database import dbaas_util as testutil
 
 class test_databases(DBaaSFixture):
 
-
     instance_id = None
     dbaas = None
 
@@ -18,20 +17,20 @@ class test_databases(DBaaSFixture):
         """
         tc_name = "Create Instance"
         super(test_databases, cls).setUpClass()
-        cls.dbaas = cls.dbaas_provider.client.reddwarfclient
+        cls.dbaas = cls.client.reddwarfclient
         NAME = "qe-database-testing"
         FLAVOR = 1
         VOLUME = 1
-        instance = test_databases.dbaas.instances.create(
+        instance = cls.dbaas.instances.create(
             name=NAME,
             flavor_id=FLAVOR,
             volume={"size": VOLUME})
-        httpCode = testutil.get_last_response_code(test_databases.dbaas)
+        httpCode = testutil.get_last_response_code(cls.dbaas)
         if httpCode != '200':
             raise Exception("Create instance failed with code %s" % httpCode)
         cls.instance_id = instance.id
         #status = instance.status
-        testutil.waitForActive(test_databases.dbaas, instanceId=test_databases.instance_id)
+        testutil.waitForActive(cls.dbaas, instanceId=test_databases.instance_id)
 
     @classmethod
     def tearDownClass(cls):
@@ -41,10 +40,10 @@ class test_databases(DBaaSFixture):
         """
 
         #Delete the instance ID created for test if active
-        if test_databases.instance_id is not None:
-            status = testutil.getInstanceStatus(test_databases.dbaas, instanceId=test_databases.instance_id)
-            if testutil.isInstanceActive(test_databases.dbaas, instanceStatus=status):
-                test_databases.dbaas.instances.get(test_databases.instance_id).delete()
+        if cls.instance_id is not None:
+            status = testutil.getInstanceStatus(cls.dbaas, instanceId=test_databases.instance_id)
+            if testutil.isInstanceActive(cls.dbaas, instanceStatus=status):
+                cls.dbaas.instances.get(cls.instance_id).delete()
 
     def test_create_db_singular(self):
         db_name = "1234FiRstdb"

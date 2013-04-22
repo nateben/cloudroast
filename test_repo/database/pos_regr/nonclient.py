@@ -6,6 +6,7 @@ import httplib2
 
 #Bring in the configs w/o creating a client
 from test_repo.database.fixtures import DBaaSFixture
+from cloudcafe.identity.v2_0.tokens_api.config import TokenAPI_Config
 
 
 class TestContract(DBaaSFixture):
@@ -18,6 +19,7 @@ class TestContract(DBaaSFixture):
 
         """
         super(TestContract, cls).setUpClass()
+        cls.identity_config = TokenAPI_Config()
         #cls.base_client = cls.dbaas_provider.client
         #cls.database = cls.dbaas_provider.client.reddwarfclient
 
@@ -30,11 +32,11 @@ class TestContract(DBaaSFixture):
         #print(self.config.auth)
         #print(self.config.database.tenant_id)
         #self.base_client.
-        body = {"auth": {"tenantName": self.config.auth.tenant_id,
-                         "passwordCredentials": {"username": self.config.auth.username,
-                                                 "password": self.config.auth.api_key}}}
+        body = {"auth": {"tenantName": self.dbaas_config.tenant_id,
+                         "passwordCredentials": {"username": self.identity_config.username,
+                                                 "password": self.identity_config.password}}}
 
-        url = self.config.auth.base_url + "/v2.0/tokens"
+        url = self.identity_config.authentication_endpoint + "/v2.0/tokens"
 
         headers = {'Content-type': 'application/json'}
 
@@ -47,8 +49,8 @@ class TestContract(DBaaSFixture):
             auth_token = j['access']['token']['id']
         #print auth_token
         kwargs = {'headers': {'X-Auth-Token': auth_token}}
-        dbaas_url = self.config.dbaas.host
-        tenant_id = self.config.dbaas.tenant_id
+        dbaas_url = self.dbaas_config.host_url
+        tenant_id = self.dbaas_config.tenant_id
         flavors_url = '/'.join([dbaas_url, tenant_id, "flavors"])
         response, content = h.request(flavors_url,
                                       'GET',

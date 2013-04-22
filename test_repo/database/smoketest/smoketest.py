@@ -472,13 +472,13 @@ class SmokeTest(DBaaSFixture):
 
     @unittest.skip("Not running this test as part of smokes")
     def test_delete_active_instances(self):
-        instances = self._get_all_instances()
+        instances = testutil.get_all_instances(self.dbaas)
         for instance in instances:
             if testutil.isInstanceActive(self.dbaas, instanceStatus=instance.status):
                 instance.delete()
             next_marker = instances.next
             while next_marker is not None:
-                instances = self._get_all_instances()
+                instances = testutil.get_all_instances(self.dbaas)
                 for instance in instances:
                     if testutil.isInstanceActive(self.dbaas, instanceStatus=instance.status):
                         instance.delete()

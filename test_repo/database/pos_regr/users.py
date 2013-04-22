@@ -16,7 +16,7 @@ class test_users(DBaaSFixture):
 
         """
         super(test_users, cls).setUpClass()
-        test_users.dbaas = cls.dbaas_provider.client.reddwarfclient
+        cls.dbaas = cls.client.reddwarfclient
         NAME = "qe-user-testing"
         FLAVOR = 1
         VOLUME = 1
@@ -24,11 +24,11 @@ class test_users(DBaaSFixture):
             name=NAME,
             flavor_id=FLAVOR,
             volume={"size": VOLUME})
-        httpCode = testutil.get_last_response_code(test_users.dbaas)
+        httpCode = testutil.get_last_response_code(cls.dbaas)
         if httpCode != '200':
             raise Exception("Create instance failed with code %s" % httpCode)
-        test_users.instance_id = instance.id
-        testutil.waitForActive(test_users.dbaas, instanceId=test_users.instance_id)
+        cls.instance_id = instance.id
+        testutil.waitForActive(cls.dbaas, instanceId=test_users.instance_id)
 
     @classmethod
     def tearDownClass(cls):
@@ -38,10 +38,10 @@ class test_users(DBaaSFixture):
         """
 
         #Delete the instance ID created for test if active
-        if test_users.instance_id is not None:
-            status = testutil.getInstanceStatus(test_users.dbaas, instanceId=test_users.instance_id)
-            if testutil.isInstanceActive(test_users.dbaas, instanceStatus=status):
-                test_users.dbaas.instances.get(test_users.instance_id).delete()
+        if cls.instance_id is not None:
+            status = testutil.getInstanceStatus(cls.dbaas, instanceId=test_users.instance_id)
+            if testutil.isInstanceActive(cls.dbaas, instanceStatus=status):
+                cls.dbaas.instances.get(cls.instance_id).delete()
 
     def test_create_user_req_params(self):
         _user = []

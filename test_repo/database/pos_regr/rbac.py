@@ -23,21 +23,21 @@ class RBACTest(DBaaSFixture):
         """
         super(RBACTest, cls).setUpClass()
 
-        cls.dbaas_admin = cls.dbaas_provider.admin_client.reddwarfclient
+        cls.dbaas_admin = cls.admin_client.reddwarfclient
         cls.dbaas_admin.authenticate()
         resp, body = RBACTest.dbaas_admin.client.last_response
         j = json.loads(body)
         role = j['access']['user']['roles'][0]['name']
         assert (role == DBaaSFixture.Role.admin)
 
-        cls.dbaas_creator = cls.dbaas_provider.creator_client.reddwarfclient
+        cls.dbaas_creator = cls.creator_client.reddwarfclient
         cls.dbaas_creator.authenticate()
         resp, body = cls.dbaas_creator.client.last_response
         j = json.loads(body)
         role = j['access']['user']['roles'][0]['name']
         assert (role == DBaaSFixture.Role.creator)
 
-        cls.dbaas_observer = cls.dbaas_provider.observer_client.reddwarfclient
+        cls.dbaas_observer = cls.observer_client.reddwarfclient
         cls.dbaas_observer.authenticate()
         resp, body = cls.dbaas_observer.client.last_response
         j = json.loads(body)

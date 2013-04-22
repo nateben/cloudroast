@@ -31,7 +31,7 @@ class test_create_instances(DBaaSFixture):
         """
         tc_name = "Create Instance"
         super(test_create_instances, cls).setUpClass()
-        test_create_instances.dbaas = cls.dbaas_provider.client.reddwarfclient
+        cls.dbaas = cls.client.reddwarfclient
 
     @classmethod
     def tearDownClass(cls):
@@ -134,23 +134,22 @@ class test_create_instances(DBaaSFixture):
 
         """
         #print (self.instance_id)
-        dbaas = self.dbaas_provider.client.reddwarfclient
         NAME = "qe-small-instance"
         FLAVOR = 2
         VOLUME = 40
-        instance = dbaas.instances.create(
+        instance = self.dbaas.instances.create(
             name=NAME,
             flavor_id=FLAVOR,
             volume={"size": VOLUME},
             databases=[{"databases": [{"name": "databaseA"}],
                         "name": "dbuser1",
                         "password": "password"}])
-        httpCode = testutil.get_last_response_code(dbaas)
+        httpCode = testutil.get_last_response_code(self.dbaas)
         self.sml_instance_id = instance.id
         self.assertTrue(httpCode == '200',
                         "Create instance failed with code %s" % httpCode)
-        testutil.waitForActive(dbaas, instanceId=instance.id)
-        self.assertTrue(testutil.getInstanceStatus(dbaas, instanceId=instance.id) == 'ACTIVE',
+        testutil.waitForActive(self.dbaas, instanceId=instance.id)
+        self.assertTrue(testutil.getInstanceStatus(self.dbaas, instanceId=instance.id) == 'ACTIVE',
                         "Instance is not in Active statue")
 
         #Get the instance and check instance attribs: such as the flavor / volume size
@@ -167,23 +166,22 @@ class test_create_instances(DBaaSFixture):
         Creating an instance for smoke testing
 
         """
-        dbaas = self.dbaas_provider.client.reddwarfclient
         NAME = "qe-medium-instance"
         FLAVOR = 3
         VOLUME = 75
-        instance = dbaas.instances.create(
+        instance = self.dbaas.instances.create(
             name=NAME,
             flavor_id=FLAVOR,
             volume={"size": VOLUME},
             databases=[{"databases": [{"name": "databaseA"}],
                         "name": "dbuser1",
                         "password": "password"}])
-        httpCode = testutil.get_last_response_code(dbaas)
+        httpCode = testutil.get_last_response_code(self.dbaas)
         self.med_instance_id = instance.id
         self.assertTrue(httpCode == '200',
                         "Create instance failed with code %s" % httpCode)
-        testutil.waitForActive(dbaas, instanceId=instance.id)
-        self.assertTrue(testutil.getInstanceStatus(dbaas, instanceId=instance.id) == 'ACTIVE',
+        testutil.waitForActive(self.dbaas, instanceId=instance.id)
+        self.assertTrue(testutil.getInstanceStatus(self.dbaas, instanceId=instance.id) == 'ACTIVE',
                         "Instance is not in Active statue")
 
         #Get the instance and check instance attribs: such as the flavor / volume size
@@ -200,23 +198,22 @@ class test_create_instances(DBaaSFixture):
         Creating an instance for smoke testing
 
         """
-        dbaas = self.dbaas_provider.client.reddwarfclient
         NAME = "qe-large-instance"
         FLAVOR = 4
         VOLUME = 100
-        instance = dbaas.instances.create(
+        instance = self.dbaas.instances.create(
             name=NAME,
             flavor_id=FLAVOR,
             volume={"size": VOLUME},
             databases=[{"databases": [{"name": "databaseA"}],
                         "name": "dbuser1",
                         "password": "password"}])
-        httpCode = testutil.get_last_response_code(dbaas)
+        httpCode = testutil.get_last_response_code(self.dbaas)
         self.lrg_instance_id = instance.id
         self.assertTrue(httpCode == '200',
                         "Create instance failed with code %s" % httpCode)
-        testutil.waitForActive(dbaas, instanceId=instance.id)
-        self.assertTrue(testutil.getInstanceStatus(dbaas, instanceId=instance.id) == 'ACTIVE',
+        testutil.waitForActive(self.dbaas, instanceId=instance.id)
+        self.assertTrue(testutil.getInstanceStatus(self.dbaas, instanceId=instance.id) == 'ACTIVE',
                         "Instance is not in Active statue")
 
         #Get the instance and check instance attribs: such as the flavor / volume size
@@ -233,23 +230,22 @@ class test_create_instances(DBaaSFixture):
         Creating an instance for smoke testing
 
         """
-        dbaas = self.dbaas_provider.client.reddwarfclient
         NAME = "qe-xlarge-instance"
         FLAVOR = 5
         VOLUME = 125
-        instance = dbaas.instances.create(
+        instance = self.dbaas.instances.create(
             name=NAME,
             flavor_id=FLAVOR,
             volume={"size": VOLUME},
             databases=[{"databases": [{"name": "databaseA"}],
                         "name": "dbuser1",
                         "password": "password"}])
-        httpCode = testutil.get_last_response_code(dbaas)
+        httpCode = testutil.get_last_response_code(self.dbaas)
         self.xlrg_instance_id_instance_id = instance.id
         self.assertTrue(httpCode == '200',
                         "Create instance failed with code %s" % httpCode)
-        testutil.waitForActive(dbaas, instanceId=instance.id)
-        self.assertTrue(testutil.getInstanceStatus(dbaas, instanceId=instance.id) == 'ACTIVE',
+        testutil.waitForActive(self.dbaas, instanceId=instance.id)
+        self.assertTrue(testutil.getInstanceStatus(self.dbaas, instanceId=instance.id) == 'ACTIVE',
                         "Instance is not in Active statue")
 
         #Get the instance and check instance attribs: such as the flavor / volume size
@@ -266,23 +262,22 @@ class test_create_instances(DBaaSFixture):
         Creating an instance for smoke testing
 
         """
-        dbaas = self.dbaas_provider.client.reddwarfclient
         NAME = "qe-xxlarge-instance"
         FLAVOR = 6
         VOLUME = 150
-        instance = dbaas.instances.create(
+        instance = self.dbaas.instances.create(
             name=NAME,
             flavor_id=FLAVOR,
             volume={"size": VOLUME},
             databases=[{"databases": [{"name": "databaseA"}],
                         "name": "dbuser1",
                         "password": "password"}])
-        httpCode = testutil.get_last_response_code(dbaas)
+        httpCode = testutil.get_last_response_code(self.dbaas)
         self.xxlrg_instance_id = instance.id
         self.assertTrue(httpCode == '200',
                         "Create instance failed with code %s" % httpCode)
-        testutil.waitForActive(dbaas, instanceId=instance.id)
-        self.assertTrue(testutil.getInstanceStatus(dbaas, instanceId=instance.id) == 'ACTIVE',
+        testutil.waitForActive(self.dbaas, instanceId=instance.id)
+        self.assertTrue(testutil.getInstanceStatus(self.dbaas, instanceId=instance.id) == 'ACTIVE',
                         "Instance is not in Active statue")
 
         #Get the instance and check instance attribs: such as the flavor / volume size
@@ -299,7 +294,6 @@ class test_create_instances(DBaaSFixture):
         Creating an instance for smoke testing
 
         """
-        dbaas = self.dbaas_provider.client.reddwarfclient
         NAME = "qe-2dbs-instance"
         FLAVOR = 1
         VOLUME = 10
@@ -315,18 +309,18 @@ class test_create_instances(DBaaSFixture):
                       "databases": [{"name": "firstdb"},
                                     {"name": "db2"}]})
 
-        instance = dbaas.instances.create(
+        instance = self.dbaas.instances.create(
             name=NAME,
             flavor_id=FLAVOR,
             volume={"size": VOLUME},
             databases=databases,
             users=users)
-        httpCode = testutil.get_last_response_code(dbaas)
+        httpCode = testutil.get_last_response_code(self.dbaas)
         self.multi_dbs_instance_id = instance.id
         self.assertTrue(httpCode == '200',
                         "Create instance failed with code %s" % httpCode)
-        testutil.waitForActive(dbaas, instanceId=instance.id)
-        self.assertTrue(testutil.getInstanceStatus(dbaas, instanceId=instance.id) == 'ACTIVE',
+        testutil.waitForActive(self.dbaas, instanceId=instance.id)
+        self.assertTrue(testutil.getInstanceStatus(self.dbaas, instanceId=instance.id) == 'ACTIVE',
                         "Instance is not in Active statue")
 
         #Get the instance and check instance attribs: such as the flavor / volume size
@@ -343,7 +337,6 @@ class test_create_instances(DBaaSFixture):
         Creating an instance for smoke testing
 
         """
-        dbaas = self.dbaas_provider.client.reddwarfclient
         NAME = "qe-2users-instance"
         FLAVOR = 1
         VOLUME = 10
@@ -360,18 +353,18 @@ class test_create_instances(DBaaSFixture):
                       "password": "litepass1",
                       "databases": [{"name": "firstdb"}]})
 
-        instance = dbaas.instances.create(
+        instance = self.dbaas.instances.create(
             name=NAME,
             flavor_id=FLAVOR,
             volume={"size": VOLUME},
             databases=databases,
             users=users)
-        httpCode = testutil.get_last_response_code(dbaas)
+        httpCode = testutil.get_last_response_code(self.dbaas)
         self.multi_users_instance_id = instance.id
         self.assertTrue(httpCode == '200',
                         "Create instance failed with code %s" % httpCode)
-        testutil.waitForActive(dbaas, instanceId=instance.id)
-        self.assertTrue(testutil.getInstanceStatus(dbaas, instanceId=instance.id) == 'ACTIVE',
+        testutil.waitForActive(self.dbaas, instanceId=instance.id)
+        self.assertTrue(testutil.getInstanceStatus(self.dbaas, instanceId=instance.id) == 'ACTIVE',
                         "Instance is not in Active statue")
 
         #Get the instance and check instance attribs: such as the flavor / volume size
@@ -388,20 +381,19 @@ class test_create_instances(DBaaSFixture):
         Creating an instance for smoke testing
 
         """
-        dbaas = self.dbaas_provider.client.reddwarfclient
         NAME = "qe-req-params-instance"
         FLAVOR = 1
         VOLUME = 10
-        instance = dbaas.instances.create(
+        instance = self.dbaas.instances.create(
             name=NAME,
             flavor_id=FLAVOR,
             volume={"size": VOLUME})
-        httpCode = testutil.get_last_response_code(dbaas)
+        httpCode = testutil.get_last_response_code(self.dbaas)
         self.req_params_instance_id = instance.id
         self.assertTrue(httpCode == '200',
                         "Create instance failed with code %s" % httpCode)
-        testutil.waitForActive(dbaas, instanceId=instance.id)
-        self.assertTrue(testutil.getInstanceStatus(dbaas, instanceId=instance.id) == 'ACTIVE',
+        testutil.waitForActive(self.dbaas, instanceId=instance.id)
+        self.assertTrue(testutil.getInstanceStatus(self.dbaas, instanceId=instance.id) == 'ACTIVE',
                         "Instance is not in Active statue")
 
         #Get the instance and check instance attribs: such as the flavor / volume size
@@ -435,24 +427,24 @@ class test_resize_instances(DBaaSFixture):
         """
         tc_name = "Create Instance"
         super(test_resize_instances, cls).setUpClass()
-        test_resize_instances.dbaas = cls.dbaas_provider.client.reddwarfclient
+        test_resize_instances.dbaas = cls.client.reddwarfclient
 
         NAME = "qe-resize_instances"
         FLAVOR = 1
         VOLUME = 10
-        instance = test_resize_instances.dbaas.instances.create(
+        instance = cls.dbaas.instances.create(
             name=NAME,
             flavor_id=FLAVOR,
             volume={"size": VOLUME},
             databases=[{"databases": [{"name": "databaseA"}],
                         "name": "dbuser1",
                         "password": "password"}])
-        httpCode = testutil.get_last_response_code(test_resize_instances.dbaas)
+        httpCode = testutil.get_last_response_code(cls.dbaas)
         if httpCode != '200':
             raise Exception("Create instance failed with code %s" % httpCode)
-        test_resize_instances.instance_id = instance.id
+        cls.instance_id = instance.id
         #status = instance.status
-        testutil.waitForActive(test_resize_instances.dbaas, instanceId=test_resize_instances.instance_id)
+        testutil.waitForActive(cls.dbaas, instanceId=test_resize_instances.instance_id)
 
     @classmethod
     def tearDownClass(cls):
@@ -460,43 +452,40 @@ class test_resize_instances(DBaaSFixture):
         Tearing down: Deleting the instance if in active state
 
         """
-        instance_id = test_resize_instances.instance_id
-        dbaas = test_resize_instances.dbaas
+        instance_id = cls.instance_id
         #Delete the instance ID created for test if active
         if instance_id is not None:
-            status = testutil.getInstanceStatus(dbaas, instanceId=instance_id)
-            if testutil.isInstanceActive(dbaas, instanceStatus=status):
-                dbaas.instances.get(instance_id).delete()
+            status = testutil.getInstanceStatus(cls.dbaas, instanceId=instance_id)
+            if testutil.isInstanceActive(cls.dbaas, instanceStatus=status):
+                cls.dbaas.instances.get(instance_id).delete()
 
     def test_resize_to_med_instance(self):
         """
         Resize an instance to med
 
         """
+        if testutil.isInstanceActive(self.dbaas, instanceId=self.instance_id):
+            self.dbaas.instances.resize_instance(self.instance_id, self.flavorTypes.med)
 
-        dbaas = self.dbaas_provider.client.reddwarfclient
-        if testutil.isInstanceActive(dbaas, instanceId=self.instance_id):
-            dbaas.instances.resize_instance(self.instance_id, self.flavorTypes.med)
-
-        httpCode = testutil.get_last_response_code(dbaas)
+        httpCode = testutil.get_last_response_code(self.dbaas)
         self.assertTrue(httpCode == '202',
                         "Create instance failed with code %s" % httpCode)
-        testutil.waitForActive(dbaas, instanceId=self.instance_id)
-        self.assertTrue(testutil.getInstanceStatus(dbaas, instanceId=self.instance_id) == 'ACTIVE',
+        testutil.waitForActive(self.dbaas, instanceId=self.instance_id)
+        self.assertTrue(testutil.getInstanceStatus(self.dbaas, instanceId=self.instance_id) == 'ACTIVE',
                         "Instance is not in Active statue")
-        newFlavorSize = dbaas.instances.get(self.instance_id).flavor['id']
+        newFlavorSize = self.dbaas.instances.get(self.instance_id).flavor['id']
         self.assertTrue(newFlavorSize == str(self.flavorTypes.med),
                         "Unexpected flavor size for resize: %s" % newFlavorSize)
 
         #Resize back to tiny
-        if testutil.isInstanceActive(dbaas, instanceId=self.instance_id):
-            dbaas.instances.resize_instance(self.instance_id, self.flavorTypes.tiny)
+        if testutil.isInstanceActive(self.dbaas, instanceId=self.instance_id):
+            self.dbaas.instances.resize_instance(self.instance_id, self.flavorTypes.tiny)
 
-        httpCode = testutil.get_last_response_code(dbaas)
+        httpCode = testutil.get_last_response_code(self.dbaas)
         self.assertTrue(httpCode == '202',
                         "Create instance failed with code %s" % httpCode)
-        testutil.waitForActive(dbaas, instanceId=self.instance_id)
-        self.assertTrue(testutil.getInstanceStatus(dbaas, instanceId=self.instance_id) == 'ACTIVE',
+        testutil.waitForActive(self.dbaas, instanceId=self.instance_id)
+        self.assertTrue(testutil.getInstanceStatus(self.dbaas, instanceId=self.instance_id) == 'ACTIVE',
                         "Instance is not in Active statue")
 
     def test_resize_to_large_instance(self):
@@ -504,30 +493,29 @@ class test_resize_instances(DBaaSFixture):
         Resize the instance from to med and back to tiny
 
         """
-        dbaas = self.dbaas_provider.client.reddwarfclient
-        if testutil.isInstanceActive(dbaas, instanceId=self.instance_id):
-            dbaas.instances.resize_instance(self.instance_id, self.flavorTypes.large)
+        if testutil.isInstanceActive(self.dbaas, instanceId=self.instance_id):
+            self.dbaas.instances.resize_instance(self.instance_id, self.flavorTypes.large)
 
-        httpCode = testutil.get_last_response_code(dbaas)
+        httpCode = testutil.get_last_response_code(self.dbaas)
         self.assertTrue(httpCode == '202',
                         "Create instance failed with code %s" % httpCode)
-        testutil.waitForActive(dbaas, instanceId=self.instance_id)
-        self.assertTrue(testutil.getInstanceStatus(dbaas, instanceId=self.instance_id) == 'ACTIVE',
+        testutil.waitForActive(self.dbaas, instanceId=self.instance_id)
+        self.assertTrue(testutil.getInstanceStatus(self.dbaas, instanceId=self.instance_id) == 'ACTIVE',
                         "Instance is not in Active statue")
 
-        newFlavorSize = dbaas.instances.get(self.instance_id).flavor['id']
+        newFlavorSize = self.dbaas.instances.get(self.instance_id).flavor['id']
         self.assertTrue(newFlavorSize == str(self.flavorTypes.large),
                         "Unexpected flavor size for resize: %s" % newFlavorSize)
 
         #Resize back to tiny
-        if testutil.isInstanceActive(dbaas, instanceId=self.instance_id):
-            dbaas.instances.resize_instance(self.instance_id, self.flavorTypes.tiny)
+        if testutil.isInstanceActive(self.dbaas, instanceId=self.instance_id):
+            self.dbaas.instances.resize_instance(self.instance_id, self.flavorTypes.tiny)
 
-        httpCode = testutil.get_last_response_code(dbaas)
+        httpCode = testutil.get_last_response_code(self.dbaas)
         self.assertTrue(httpCode == '202',
                         "Create instance failed with code %s" % httpCode)
-        testutil.waitForActive(dbaas, instanceId=self.instance_id)
-        self.assertTrue(testutil.getInstanceStatus(dbaas, instanceId=self.instance_id) == 'ACTIVE',
+        testutil.waitForActive(self.dbaas, instanceId=self.instance_id)
+        self.assertTrue(testutil.getInstanceStatus(self.dbaas, instanceId=self.instance_id) == 'ACTIVE',
                         "Instance is not in Active statue")
 
     def test_resize_to_xlarge_instance(self):
@@ -536,30 +524,29 @@ class test_resize_instances(DBaaSFixture):
 
         """
 
-        dbaas = self.dbaas_provider.client.reddwarfclient
-        if testutil.isInstanceActive(dbaas, instanceId=self.instance_id):
-            dbaas.instances.resize_instance(self.instance_id, self.flavorTypes.xlarge)
+        if testutil.isInstanceActive(self.dbaas, instanceId=self.instance_id):
+            self.dbaas.instances.resize_instance(self.instance_id, self.flavorTypes.xlarge)
 
-        httpCode = testutil.get_last_response_code(dbaas)
+        httpCode = testutil.get_last_response_code(self.dbaas)
         self.assertTrue(httpCode == '202',
                         "Create instance failed with code %s" % httpCode)
-        testutil.waitForActive(dbaas, instanceId=self.instance_id)
-        self.assertTrue(testutil.getInstanceStatus(dbaas, instanceId=self.instance_id) == 'ACTIVE',
+        testutil.waitForActive(self.dbaas, instanceId=self.instance_id)
+        self.assertTrue(testutil.getInstanceStatus(self.dbaas, instanceId=self.instance_id) == 'ACTIVE',
                         "Instance is not in Active statue")
 
-        newFlavorSize = dbaas.instances.get(self.instance_id).flavor['id']
+        newFlavorSize = self.dbaas.instances.get(self.instance_id).flavor['id']
         self.assertTrue(newFlavorSize == str(self.flavorTypes.xlarge),
                         "Unexpected flavor size for resize: %s" % newFlavorSize)
 
         #Resize back to tiny
-        if testutil.isInstanceActive(dbaas, instanceId=self.instance_id):
-            dbaas.instances.resize_instance(self.instance_id, self.flavorTypes.tiny)
+        if testutil.isInstanceActive(self.dbaas, instanceId=self.instance_id):
+            self.dbaas.instances.resize_instance(self.instance_id, self.flavorTypes.tiny)
 
-        httpCode = testutil.get_last_response_code(dbaas)
+        httpCode = testutil.get_last_response_code(self.dbaas)
         self.assertTrue(httpCode == '202',
                         "Create instance failed with code %s" % httpCode)
-        testutil.waitForActive(dbaas, instanceId=self.instance_id)
-        self.assertTrue(testutil.getInstanceStatus(dbaas, instanceId=self.instance_id) == 'ACTIVE',
+        testutil.waitForActive(self.dbaas, instanceId=self.instance_id)
+        self.assertTrue(testutil.getInstanceStatus(self.dbaas, instanceId=self.instance_id) == 'ACTIVE',
                         "Instance is not in Active statue")
 
     def test_resize_to_xxlarge_instance(self):
@@ -568,30 +555,29 @@ class test_resize_instances(DBaaSFixture):
 
         """
 
-        dbaas = self.dbaas_provider.client.reddwarfclient
-        if testutil.isInstanceActive(dbaas, instanceId=self.instance_id):
-            dbaas.instances.resize_instance(self.instance_id, self.flavorTypes.xxlarge)
+        if testutil.isInstanceActive(self.dbaas, instanceId=self.instance_id):
+            self.dbaas.instances.resize_instance(self.instance_id, self.flavorTypes.xxlarge)
 
-        httpCode = testutil.get_last_response_code(dbaas)
+        httpCode = testutil.get_last_response_code(self.dbaas)
         self.assertTrue(httpCode == '202',
                         "Create instance failed with code %s" % httpCode)
-        testutil.waitForActive(dbaas, instanceId=self.instance_id)
-        self.assertTrue(testutil.getInstanceStatus(dbaas, instanceId=self.instance_id) == 'ACTIVE',
+        testutil.waitForActive(self.dbaas, instanceId=self.instance_id)
+        self.assertTrue(testutil.getInstanceStatus(self.dbaas, instanceId=self.instance_id) == 'ACTIVE',
                         "Instance is not in Active statue")
 
-        newFlavorSize = dbaas.instances.get(self.instance_id).flavor['id']
+        newFlavorSize = self.dbaas.instances.get(self.instance_id).flavor['id']
         self.assertTrue(newFlavorSize == str(self.flavorTypes.xxlarge),
                         "Unexpected flavor size for resize: %s" % newFlavorSize)
 
         #Resize back to tiny
-        if testutil.isInstanceActive(dbaas, instanceId=self.instance_id):
-            dbaas.instances.resize_instance(self.instance_id, self.flavorTypes.tiny)
+        if testutil.isInstanceActive(self.dbaas, instanceId=self.instance_id):
+            self.dbaas.instances.resize_instance(self.instance_id, self.flavorTypes.tiny)
 
-        httpCode = testutil.get_last_response_code(dbaas)
+        httpCode = testutil.get_last_response_code(self.dbaas)
         self.assertTrue(httpCode == '202',
                         "Create instance failed with code %s" % httpCode)
-        testutil.waitForActive(dbaas, instanceId=self.instance_id)
-        self.assertTrue(testutil.getInstanceStatus(dbaas, instanceId=self.instance_id) == 'ACTIVE',
+        testutil.waitForActive(self.dbaas, instanceId=self.instance_id)
+        self.assertTrue(testutil.getInstanceStatus(self.dbaas, instanceId=self.instance_id) == 'ACTIVE',
                         "Instance is not in Active statue")
 
 
@@ -614,24 +600,24 @@ class test_resize_volume_instances(DBaaSFixture):
         """
 
         super(test_resize_volume_instances, cls).setUpClass()
-        test_resize_volume_instances.dbaas = cls.dbaas_provider.client.reddwarfclient
+        cls.dbaas = cls.client.reddwarfclient
 
         NAME = "qe-resize_instances"
         FLAVOR = 1
-        VOLUME = test_resize_volume_instances.ResizeUpSizes.origLevel
-        instance = test_resize_volume_instances.dbaas.instances.create(
+        VOLUME = cls.ResizeUpSizes.origLevel
+        instance = cls.dbaas.instances.create(
             name=NAME,
             flavor_id=FLAVOR,
             volume={"size": VOLUME},
             databases=[{"databases": [{"name": "databaseA"}],
                         "name": "dbuser1",
                         "password": "password"}])
-        httpCode = testutil.get_last_response_code(test_resize_volume_instances.dbaas)
+        httpCode = testutil.get_last_response_code(cls.dbaas)
         if httpCode != '200':
             raise Exception("Create instance failed with code %s" % httpCode)
-        test_resize_volume_instances.instance_id = instance.id
+        cls.instance_id = instance.id
         #status = instance.status
-        testutil.waitForActive(test_resize_volume_instances.dbaas, instanceId=test_resize_volume_instances.instance_id)
+        testutil.waitForActive(cls.dbaas, instanceId=test_resize_volume_instances.instance_id)
 
     @classmethod
     def tearDownClass(cls):
@@ -639,13 +625,12 @@ class test_resize_volume_instances(DBaaSFixture):
         Tearing down: Deleting the instance if in active state
 
         """
-        instance_id = test_resize_volume_instances.instance_id
-        dbaas = test_resize_volume_instances.dbaas
+        instance_id = cls.instance_id
         #Delete the instance ID created for test if active
         if instance_id is not None:
-            status = testutil.getInstanceStatus(dbaas, instanceId=instance_id)
-            if testutil.isInstanceActive(dbaas, instanceStatus=status):
-                dbaas.instances.get(instance_id).delete()
+            status = testutil.getInstanceStatus(cls.dbaas, instanceId=instance_id)
+            if testutil.isInstanceActive(cls.dbaas, instanceStatus=status):
+                cls.dbaas.instances.get(instance_id).delete()
 
     def test_resize_volume_instance(self):
         """
@@ -653,43 +638,42 @@ class test_resize_volume_instances(DBaaSFixture):
 
         """
 
-        dbaas = self.dbaas_provider.client.reddwarfclient
-        if testutil.isInstanceActive(dbaas, instanceId=self.instance_id):
-            dbaas.instances.resize_volume(self.instance_id, self.ResizeUpSizes.lev1)
+        if testutil.isInstanceActive(self.dbaas, instanceId=self.instance_id):
+            self.dbaas.instances.resize_volume(self.instance_id, self.ResizeUpSizes.lev1)
 
-        httpCode = testutil.get_last_response_code(dbaas)
+        httpCode = testutil.get_last_response_code(self.dbaas)
         self.assertTrue(httpCode == '202',
                         "Create instance failed with code %s" % httpCode)
-        testutil.waitForActive(dbaas, instanceId=self.instance_id)
-        self.assertTrue(testutil.getInstanceStatus(dbaas, instanceId=self.instance_id) == 'ACTIVE',
+        testutil.waitForActive(self.dbaas, instanceId=self.instance_id)
+        self.assertTrue(testutil.getInstanceStatus(self.dbaas, instanceId=self.instance_id) == 'ACTIVE',
                         "Instance is not in Active statue")
-        newVolume = dbaas.instances.get(self.instance_id).volume['size']
+        newVolume = self.dbaas.instances.get(self.instance_id).volume['size']
         self.assertTrue(newVolume == self.ResizeUpSizes.lev1, "Expected new volume size %s: Got %s "
                                                               % (self.ResizeUpSizes.lev1, newVolume))
 
-        if testutil.isInstanceActive(dbaas, instanceId=self.instance_id):
-            dbaas.instances.resize_volume(self.instance_id, self.ResizeUpSizes.lev2)
+        if testutil.isInstanceActive(self.dbaas, instanceId=self.instance_id):
+            self.dbaas.instances.resize_volume(self.instance_id, self.ResizeUpSizes.lev2)
 
-        httpCode = testutil.get_last_response_code(dbaas)
+        httpCode = testutil.get_last_response_code(self.dbaas)
         self.assertTrue(httpCode == '202',
                         "Create instance failed with code %s" % httpCode)
-        testutil.waitForActive(dbaas, instanceId=self.instance_id)
-        self.assertTrue(testutil.getInstanceStatus(dbaas, instanceId=self.instance_id) == 'ACTIVE',
+        testutil.waitForActive(self.dbaas, instanceId=self.instance_id)
+        self.assertTrue(testutil.getInstanceStatus(self.dbaas, instanceId=self.instance_id) == 'ACTIVE',
                         "Instance is not in Active statue")
-        newVolume = dbaas.instances.get(self.instance_id).volume['size']
+        newVolume = self.dbaas.instances.get(self.instance_id).volume['size']
         self.assertTrue(newVolume == self.ResizeUpSizes.lev2, "Expected new volume size %s: Got %s "
                                                               % (self.ResizeUpSizes.lev2, newVolume))
 
-        if testutil.isInstanceActive(dbaas, instanceId=self.instance_id):
-            dbaas.instances.resize_volume(self.instance_id, self.ResizeUpSizes.lev3)
+        if testutil.isInstanceActive(self.dbaas, instanceId=self.instance_id):
+            self.dbaas.instances.resize_volume(self.instance_id, self.ResizeUpSizes.lev3)
 
-        httpCode = testutil.get_last_response_code(dbaas)
+        httpCode = testutil.get_last_response_code(self.dbaas)
         self.assertTrue(httpCode == '202',
                         "Create instance failed with code %s" % httpCode)
-        testutil.waitForActive(dbaas, instanceId=self.instance_id)
-        self.assertTrue(testutil.getInstanceStatus(dbaas, instanceId=self.instance_id) == 'ACTIVE',
+        testutil.waitForActive(self.dbaas, instanceId=self.instance_id)
+        self.assertTrue(testutil.getInstanceStatus(self.dbaas, instanceId=self.instance_id) == 'ACTIVE',
                         "Instance is not in Active statue")
-        newVolume = dbaas.instances.get(self.instance_id).volume['size']
+        newVolume = self.dbaas.instances.get(self.instance_id).volume['size']
         self.assertTrue(newVolume == self.ResizeUpSizes.lev3, "Expected new volume size %s: Got %s "
                                                               % (self.ResizeUpSizes.lev3, newVolume))
 

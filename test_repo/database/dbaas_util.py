@@ -13,7 +13,7 @@ path_to_error_report = '/var/lib/jenkins/workspace/Stability/report/error_report
 def create_active_instance(dbaasClient,
                            name="create_active_instance",
                            flavor_id=3,
-                           volume=None,
+                           volume=2,
                            databases=None,
                            users=None):
     """
@@ -24,13 +24,12 @@ def create_active_instance(dbaasClient,
     :param volume:
     :return instance_id:
     """
-    if volume is None:
-        volume = {"size": 2}
 
+    volume_size = {"size": volume}
     instance = dbaasClient.instances.create(
         name=name,
         flavor_id=flavor_id,
-        volume=volume,
+        volume=volume_size,
         databases=databases,
         users=users
     )
@@ -181,6 +180,10 @@ def waitForActive(dbaasClient, instanceId=None):
     """ Waiting for 'ACTIVE' status """
     status, elapsed_time = wait_for_status(dbaasClient, instanceId, "ACTIVE")
     return status, elapsed_time
+
+
+def get_all_instances(dbaas_client):
+    return dbaas_client.instances.list()
 
 
 def wait_for_status(dbaasClient, instanceId, status):
