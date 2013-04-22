@@ -46,14 +46,14 @@ class DBaaSFixture(BaseTestFixture):
         cls.service_url = cls.dbaas_config.host + "/" + cls.tenant_id
 
         identity_config = TokenAPI_Config()
-        token_client = TokenAPI_Client(identity_config.authentication_endpoint,
+        token_client = TokenAPI_Client(identity_config.endpoint,
                                        'json', 'json')
         token_behaviors = TokenAPI_Behaviors(token_client)
         access_data = token_behaviors.get_access_data(identity_config.username,
                                                       identity_config.password,
                                                       identity_config.tenant_name)
-        dbaas_service = access_data.get_service(identity_config.authentication_endpoint)
-        cls.auth_url = identity_config.authentication_endpoint + "/v2.0/tokens"
+        dbaas_service = access_data.get_service(identity_config.endpoint)
+        cls.auth_url = identity_config.endpoint + "/v2.0/tokens"
         #check for role
         rp_admin_user = cls.dbaas_config.rp_admin_user
         creator_user = cls.dbaas_config.creator_user

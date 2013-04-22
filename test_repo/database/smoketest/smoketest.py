@@ -474,14 +474,18 @@ class SmokeTest(DBaaSFixture):
     def test_delete_active_instances(self):
         instances = self._get_all_instances()
         for instance in instances:
-            if testutil.isInstanceActive(self.dbaas, instanceStatus=instance.status):
+            try:
                 instance.delete()
+            except:
+                continue
             next_marker = instances.next
             while next_marker is not None:
                 instances = self._get_all_instances()
                 for instance in instances:
-                    if testutil.isInstanceActive(self.dbaas, instanceStatus=instance.status):
+                    try:
                         instance.delete()
+                    except:
+                        continue
                 next_marker = instances.next
 
     @unittest.skip("Version feature needs auth to work...could be bug")
